@@ -78,6 +78,11 @@ section > .head p { color: var(--muted); }
 .mats a:hover { text-decoration: underline; }
 .mats .leader { color: var(--gold); }
 .pending { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+.when { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.when time { color: var(--ink); font-weight: 500; }
+.status { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.12rem 0.5rem; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.status.held { border-color: transparent; background: var(--accent-soft); color: var(--accent); }
+.status.next { border-color: var(--gold); color: var(--gold); }
 
 .homework { margin-top: 0.75rem; background: var(--gold-soft); border-radius: 10px; padding: 1.1rem 1.25rem; display: grid; gap: 0.6rem; min-width: 0; }
 .homework h4 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; margin: 0; text-wrap: balance; }
@@ -134,6 +139,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session">
         <span class="num">1</span>
         <div class="body">
+          <p class="when" data-session="1"><time>Sun, Oct 4</time><span class="status held">Held</span></p>
           <h3>Never Read a Bible Verse</h3>
           <p class="topic">Why pulling one verse out of its setting changes what it says.</p>
           <div class="refs">
@@ -173,6 +179,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session todo">
         <span class="num">2</span>
         <div class="body">
+          <p class="when" data-session="2"><time>Sun, Oct 18</time><span class="status">Not yet held</span></p>
           <h3>Stranger Things</h3>
           <p class="topic">The strange Old Testament laws, and what they meant for Israel and mean for us.</p>
           <div class="refs">
@@ -184,6 +191,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session todo">
         <span class="num">3</span>
         <div class="body">
+          <p class="when" data-session="3"><time>Sun, Nov 1</time><span class="status">Not yet held</span></p>
           <h3>Boys' Club Christianity</h3>
           <p class="topic">Women in the Bible and the church, with both major readings of the hard passages laid out fairly.</p>
           <div class="refs">
@@ -196,6 +204,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session todo">
         <span class="num">4</span>
         <div class="body">
+          <p class="when" data-session="4"><time>Sun, Nov 15</time><span class="status">Not yet held</span></p>
           <h3>Jesus Riding a Dinosaur</h3>
           <p class="topic">Genesis, science, and what the creation account was written to say.</p>
           <div class="refs">
@@ -207,6 +216,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session todo">
         <span class="num">5</span>
         <div class="body">
+          <p class="when" data-session="5"><time>Sun, Dec 6</time><span class="status">Not yet held</span></p>
           <h3>My God Can Beat Up Your God</h3>
           <p class="topic">Violence in the Old Testament and how Christianity relates to other world religions.</p>
           <div class="refs"><span class="ref tba">Passages TBA</span></div>
@@ -216,6 +226,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
       <li class="session todo">
         <span class="num">6</span>
         <div class="body">
+          <p class="when" data-session="6"><time>Sun, Dec 20</time><span class="status">Not yet held</span></p>
           <h3>Rated NC-17</h3>
           <p class="topic">The disturbing passages, including what the Bible says about slavery.</p>
           <div class="refs"><span class="ref tba">Passages TBA</span></div>
@@ -253,6 +264,11 @@ footer { color: var(--muted); font-size: 0.9rem; }
    ============================================================ */
 var SKIP = [];
 
+/* First session of the series. Each later session takes the next
+   1st or 3rd Sunday that isn't in SKIP. */
+var SERIES_START = "2026-10-04";
+var SESSION_COUNT = 6;
+
 (function () {
   function iso(d) {
     var m = String(d.getMonth() + 1).padStart(2, "0");
@@ -265,29 +281,50 @@ var SKIP = [];
     var firstSunday = 1 + ((7 - firstDay) % 7);
     return new Date(y, m, firstSunday + (n - 1) * 7);
   }
-  function upcoming(count) {
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var y = today.getFullYear(), m = today.getMonth(), out = [], guard = 0;
-    while (out.length < count && guard++ < 36) {
+  // Meeting Sundays on or after `from`, skipping SKIP dates
+  function meetings(from, count) {
+    var y = from.getFullYear(), m = from.getMonth(), out = [], guard = 0;
+    while (out.length < count && guard++ < 48) {
       [1, 3].forEach(function (n) {
         var d = nthSunday(y, m, n);
-        if (d >= today && out.length < count && SKIP.indexOf(iso(d)) === -1) out.push(d);
+        if (d >= from && out.length < count && SKIP.indexOf(iso(d)) === -1) out.push(d);
       });
       m++; if (m > 11) { m = 0; y++; }
     }
-    return { list: out, today: today };
+    return out;
   }
-  var r = upcoming(4), dates = r.list;
-  if (!dates.length) return;
-  var first = dates[0];
-  var isToday = iso(first) === iso(r.today);
-  document.getElementById("next-date").textContent = isToday
-    ? "Today, 12:45 pm"
-    : first.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-  document.getElementById("later-dates").textContent = "Then " + dates.slice(1).map(function (d) {
-    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  }).join(" · ");
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var long = { weekday: "short", month: "short", day: "numeric" };
+  var short = { month: "short", day: "numeric" };
+
+  // Next meeting box
+  var dates = meetings(today, 4);
+  if (dates.length) {
+    var first = dates[0];
+    document.getElementById("next-date").textContent = iso(first) === iso(today)
+      ? "Today, 12:45 pm"
+      : first.toLocaleDateString("en-US", long);
+    document.getElementById("later-dates").textContent = "Then " + dates.slice(1).map(function (d) {
+      return d.toLocaleDateString("en-US", short);
+    }).join(" · ");
+  }
+
+  // Session dates and status
+  var p = SERIES_START.split("-");
+  var sessionDates = meetings(new Date(+p[0], +p[1] - 1, +p[2]), SESSION_COUNT);
+  var nextMarked = false;
+  sessionDates.forEach(function (d, i) {
+    var el = document.querySelector('.when[data-session="' + (i + 1) + '"]');
+    if (!el) return;
+    var t = el.querySelector("time"), st = el.querySelector(".status");
+    t.textContent = d.toLocaleDateString("en-US", long);
+    t.setAttribute("datetime", iso(d));
+    if (d < today) { st.textContent = "Held"; st.className = "status held"; }
+    else if (iso(d) === iso(today)) { st.textContent = "Today"; st.className = "status next"; nextMarked = true; }
+    else if (!nextMarked) { st.textContent = "Next up · not yet held"; st.className = "status next"; nextMarked = true; }
+    else { st.textContent = "Not yet held"; st.className = "status"; }
+  });
 })();
 </script>
 </body>

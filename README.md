@@ -19,6 +19,8 @@ var SKIP = ["2026-12-20"];
 
 The "Next meeting" date always shows the next 1st or 3rd Sunday that isn't on this list.
 
+**Session dates.** Each session's date is worked out from `SERIES_START` (Session 1, Oct 4, 2026): every later session takes the next 1st or 3rd Sunday not in `SKIP`, so skipping a Sunday pushes the remaining sessions back one meeting. Past sessions are marked "Held", the next one "Next up", and the rest "Not yet held".
+
 **Add a session's materials.** Put the PDFs in `materials/session-N/` using the same three file names, then in that session's entry in `index.html` replace the "Materials coming soon" line with a `mats` block like the one in Session 1, and remove `todo` from the session's `class`.
 
 Changes go live a minute or two after they're pushed to the `main` branch.

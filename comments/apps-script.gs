@@ -1,8 +1,9 @@
 /**
  * cyagroup.org comments
  *
- * Lives in the "cyagroup.org Comments" Google Sheet (Extensions → Apps Script)
- * and is deployed as a web app (Execute as: Me, Who has access: Anyone).
+ * A standalone Apps Script project ("cyagroup.org Comments API") that reads and
+ * writes the "cyagroup.org Comments" Google Sheet. Deployed as a web app
+ * (Execute as: Me, Who has access: Anyone).
  *
  *   GET  /exec            → visible comments as JSON
  *   POST /exec            → adds a comment (fields: session, name, comment)
@@ -11,13 +12,14 @@
  * To take a comment down, delete its row, or type anything in its Hide cell.
  */
 
+var SPREADSHEET_ID = '1olxbg4jUibeBFGiJhc7cYGwAfg1G1RCrxTEIOxd2BKI';
 var SHEET_NAME = 'Comments';
 var SESSIONS = 6;
 var MAX_NAME = 60;
 var MAX_COMMENT = 1500;
 
 function sheet_() {
-  return SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  return SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
 }
 
 function json_(obj) {

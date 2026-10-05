@@ -23,4 +23,6 @@ The "Next meeting" date always shows the next 1st or 3rd Sunday that isn't on th
 
 **Add a session's materials.** Put the PDFs in `materials/session-N/` using the same three file names, then in that session's entry in `index.html` replace the "Materials coming soon" line with a `mats` block like the one in Session 1, and remove `todo` from the session's `class`.
 
+**Comments.** Each session has a comment section. Comments are stored in the "cyagroup.org Comments" Google Sheet (owned by ericwaikinchan@gmail.com) through a Google Apps Script web app; the script's source is in `comments/apps-script.gs`, and its web app URL is `COMMENTS_API` in `index.html`. To take a comment down, delete its row in the sheet or type anything in its Hide cell. Names are limited to 60 characters and comments to 1,500. If you change the script, redeploy it in Apps Script (Deploy → Manage deployments → Edit → New version) so the URL stays the same.
+
 Changes go live a minute or two after they're pushed to the `main` branch.

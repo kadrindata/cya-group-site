@@ -20,6 +20,7 @@
   --accent-soft: #e3edf5;
   --gold: #a46a12;
   --gold-soft: #f6ead6;
+  --danger: #b3261e;
   --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -28,7 +29,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #10181f; --surface: #172330; --ink: #e6edf2; --muted: #9aaab6; --line: #2a3a48;
-    --accent: #8cbbe0; --accent-soft: #1d3346; --gold: #e2ad5c; --gold-soft: #33281a;
+    --accent: #8cbbe0; --accent-soft: #1d3346; --gold: #e2ad5c; --gold-soft: #33281a; --danger: #f2a39b;
     color-scheme: dark;
   }
 }
@@ -89,6 +90,32 @@ section > .head p { color: var(--muted); }
 .homework h5 { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0.4rem 0 0; }
 .homework .hw-intro, .homework .hw-start { font-size: 0.97rem; }
 .homework .hw-intro { color: var(--muted); }
+.comments { margin-top: 0.75rem; padding-top: 0.9rem; border-top: 1px dashed var(--line); display: grid; gap: 0.6rem; min-width: 0; }
+.c-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.c-head h4 { font-family: var(--display); font-size: 1rem; font-weight: 700; margin: 0; }
+.c-count { font-family: var(--mono); font-size: 0.8rem; font-weight: 500; color: var(--muted); }
+.c-open, .c-post, .c-cancel { font: inherit; font-size: 0.92rem; font-weight: 600; border-radius: 8px; padding: 0.4rem 0.85rem; cursor: pointer; }
+.c-open, .c-cancel { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+.c-open:hover, .c-cancel:hover { border-color: var(--accent); }
+.c-post { background: var(--accent); color: var(--surface); border: 1px solid var(--accent); }
+.c-post:disabled { opacity: 0.6; cursor: wait; }
+.c-open:focus-visible, .c-post:focus-visible, .c-cancel:focus-visible, .c-form input:focus-visible, .c-form textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.c-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.c-item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.9rem; display: grid; gap: 0.25rem; min-width: 0; }
+.c-meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; align-items: baseline; }
+.c-name { font-weight: 700; }
+.c-time { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.c-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.97rem; }
+.c-empty { color: var(--muted); font-size: 0.92rem; font-style: italic; }
+.c-form { display: grid; gap: 0.35rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem; }
+.c-form label { font-size: 0.85rem; font-weight: 600; }
+.c-form input, .c-form textarea { font: inherit; font-size: 1rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 0.6rem; width: 100%; min-width: 0; }
+.c-form textarea { resize: vertical; }
+.c-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.c-note { font-size: 0.8rem; color: var(--muted); }
+.c-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.2rem; }
+.c-msg { font-size: 0.88rem; min-height: 1.2em; }
+.c-msg.err { color: var(--danger); }
 .hw-list { margin: 0; padding-left: 1.4rem; display: grid; gap: 0.3rem; font-size: 0.97rem; }
 
 .method { display: grid; gap: 1rem; }
@@ -174,6 +201,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
               <li>If a friend posted Jeremiah 29:11 before a big job interview, how would you gently share what you learned?</li>
             </ol>
           </div>
+          <section class="comments" data-session="1" aria-labelledby="c1-h">
+            <div class="c-head">
+              <h4 id="c1-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c1-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c1-form" hidden novalidate>
+              <label for="c1-name">Your name</label>
+              <input id="c1-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c1-comment">Comment</label>
+              <textarea id="c1-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c1-website">Leave this empty</label><input id="c1-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
       <li class="session todo">
@@ -186,6 +233,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
             <a class="ref" href="https://www.biblegateway.com/passage/?search=Leviticus+19&amp;version=ESV" target="_blank" rel="noopener">Lev 19</a>
           </div>
           <p class="pending">Materials coming soon</p>
+          <section class="comments" data-session="2" aria-labelledby="c2-h">
+            <div class="c-head">
+              <h4 id="c2-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c2-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c2-form" hidden novalidate>
+              <label for="c2-name">Your name</label>
+              <input id="c2-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c2-comment">Comment</label>
+              <textarea id="c2-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c2-website">Leave this empty</label><input id="c2-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
       <li class="session todo">
@@ -199,6 +266,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
             <a class="ref" href="https://www.biblegateway.com/passage/?search=1+Corinthians+14&amp;version=ESV" target="_blank" rel="noopener">1 Cor 14</a>
           </div>
           <p class="pending">Materials coming soon</p>
+          <section class="comments" data-session="3" aria-labelledby="c3-h">
+            <div class="c-head">
+              <h4 id="c3-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c3-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c3-form" hidden novalidate>
+              <label for="c3-name">Your name</label>
+              <input id="c3-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c3-comment">Comment</label>
+              <textarea id="c3-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c3-website">Leave this empty</label><input id="c3-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
       <li class="session todo">
@@ -211,6 +298,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
             <a class="ref" href="https://www.biblegateway.com/passage/?search=Genesis+1&amp;version=ESV" target="_blank" rel="noopener">Gen 1</a>
           </div>
           <p class="pending">Materials coming soon</p>
+          <section class="comments" data-session="4" aria-labelledby="c4-h">
+            <div class="c-head">
+              <h4 id="c4-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c4-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c4-form" hidden novalidate>
+              <label for="c4-name">Your name</label>
+              <input id="c4-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c4-comment">Comment</label>
+              <textarea id="c4-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c4-website">Leave this empty</label><input id="c4-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
       <li class="session todo">
@@ -221,6 +328,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
           <p class="topic">Violence in the Old Testament and how Christianity relates to other world religions.</p>
           <div class="refs"><span class="ref tba">Passages TBA</span></div>
           <p class="pending">Materials coming soon</p>
+          <section class="comments" data-session="5" aria-labelledby="c5-h">
+            <div class="c-head">
+              <h4 id="c5-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c5-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c5-form" hidden novalidate>
+              <label for="c5-name">Your name</label>
+              <input id="c5-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c5-comment">Comment</label>
+              <textarea id="c5-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c5-website">Leave this empty</label><input id="c5-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
       <li class="session todo">
@@ -231,6 +358,26 @@ footer { color: var(--muted); font-size: 0.9rem; }
           <p class="topic">The disturbing passages, including what the Bible says about slavery.</p>
           <div class="refs"><span class="ref tba">Passages TBA</span></div>
           <p class="pending">Materials coming soon</p>
+          <section class="comments" data-session="6" aria-labelledby="c6-h">
+            <div class="c-head">
+              <h4 id="c6-h">Comments <span class="c-count" data-count></span></h4>
+              <button type="button" class="c-open" aria-expanded="false" aria-controls="c6-form">Leave a comment</button>
+            </div>
+            <ul class="c-list" data-list><li class="c-empty">Loading comments…</li></ul>
+            <form class="c-form" id="c6-form" hidden novalidate>
+              <label for="c6-name">Your name</label>
+              <input id="c6-name" name="name" type="text" maxlength="60" autocomplete="name" required>
+              <label for="c6-comment">Comment</label>
+              <textarea id="c6-comment" name="comment" rows="4" maxlength="1500" required placeholder="A thought on the homework, the passage, or the session"></textarea>
+              <div class="c-hp" aria-hidden="true"><label for="c6-website">Leave this empty</label><input id="c6-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <p class="c-note">Your name and comment will appear on this public page.</p>
+              <div class="c-actions">
+                <button type="submit" class="c-post">Post comment</button>
+                <button type="button" class="c-cancel">Cancel</button>
+              </div>
+              <p class="c-msg" role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </li>
     </ol>
@@ -325,6 +472,113 @@ var SESSION_COUNT = 6;
     else if (!nextMarked) { st.textContent = "Next up · not yet held"; st.className = "status next"; nextMarked = true; }
     else { st.textContent = "Not yet held"; st.className = "status"; }
   });
+})();
+
+/* ============================================================
+   COMMENTS — stored in the "cyagroup.org Comments" Google Sheet
+   via a Google Apps Script web app. Delete a row in the sheet
+   (or type anything in its Hide cell) to take a comment down.
+   ============================================================ */
+var COMMENTS_API = "https://script.google.com/macros/s/AKfycbyOgfCZWVfSzBY5l-DeT4oCkWirvuw4yIVqap4UMc9wJXKA2bMTT3XMlg7tzBspLLmyAQ/exec";
+
+(function () {
+  var sections = [].slice.call(document.querySelectorAll(".comments[data-session]"));
+  if (!sections.length) return;
+
+  function fmt(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return "";
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " +
+      d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+  function item(c) {
+    var li = document.createElement("li"); li.className = "c-item";
+    var meta = document.createElement("div"); meta.className = "c-meta";
+    var n = document.createElement("span"); n.className = "c-name"; n.textContent = c.name;
+    var t = document.createElement("time"); t.className = "c-time"; t.dateTime = c.time; t.textContent = fmt(c.time);
+    meta.appendChild(n); meta.appendChild(t);
+    var p = document.createElement("p"); p.className = "c-text"; p.textContent = c.comment;
+    li.appendChild(meta); li.appendChild(p);
+    return li;
+  }
+  function render(sec, list) {
+    var ul = sec.querySelector("[data-list]"), count = sec.querySelector("[data-count]");
+    ul.textContent = "";
+    if (!list.length) {
+      var e = document.createElement("li"); e.className = "c-empty";
+      e.textContent = "No comments yet. Be the first.";
+      ul.appendChild(e);
+    } else {
+      list.slice().sort(function (a, b) { return new Date(a.time) - new Date(b.time); })
+        .forEach(function (c) { ul.appendChild(item(c)); });
+    }
+    count.textContent = list.length ? "(" + list.length + ")" : "";
+  }
+  var cache = {};
+  function load() {
+    return fetch(COMMENTS_API, { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        cache = {};
+        (data.comments || []).forEach(function (c) { (cache[c.session] = cache[c.session] || []).push(c); });
+        sections.forEach(function (sec) { render(sec, cache[sec.dataset.session] || []); });
+      })
+      .catch(function () {
+        sections.forEach(function (sec) {
+          var ul = sec.querySelector("[data-list]");
+          ul.innerHTML = '<li class="c-empty">Comments couldn\'t load right now. Try refreshing the page.</li>';
+        });
+      });
+  }
+
+  sections.forEach(function (sec) {
+    var open = sec.querySelector(".c-open"), form = sec.querySelector(".c-form");
+    var msg = sec.querySelector(".c-msg"), post = sec.querySelector(".c-post");
+    var nameEl = form.querySelector('[name="name"]'), textEl = form.querySelector('[name="comment"]');
+
+    // Remember the commenter's name on this device
+    try { nameEl.value = localStorage.getItem("cya-name") || ""; } catch (e) {}
+
+    function show(on) {
+      form.hidden = !on; open.hidden = on;
+      open.setAttribute("aria-expanded", String(on));
+      if (on) (nameEl.value ? textEl : nameEl).focus();
+    }
+    open.addEventListener("click", function () { show(true); });
+    sec.querySelector(".c-cancel").addEventListener("click", function () { msg.textContent = ""; show(false); });
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      msg.className = "c-msg"; msg.textContent = "";
+      var name = nameEl.value.trim(), comment = textEl.value.trim();
+      if (!name) { msg.className = "c-msg err"; msg.textContent = "Add your name so others know who's commenting."; nameEl.focus(); return; }
+      if (!comment) { msg.className = "c-msg err"; msg.textContent = "Write a comment before posting."; textEl.focus(); return; }
+      post.disabled = true; post.textContent = "Posting…";
+      var body = new URLSearchParams({ session: sec.dataset.session, name: name, comment: comment,
+        website: form.querySelector('[name="website"]').value });
+      fetch(COMMENTS_API, { method: "POST", body: body })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.error || "Your comment didn't post.");
+          try { localStorage.setItem("cya-name", name); } catch (e) {}
+          textEl.value = "";
+          var mine = { session: Number(sec.dataset.session), name: name, comment: comment, time: new Date().toISOString() };
+          var list = (cache[sec.dataset.session] = cache[sec.dataset.session] || []);
+          if (!res.duplicate) list.push(mine);
+          render(sec, list);
+          show(false);
+          open.textContent = "Leave another comment";
+        })
+        .catch(function (err) {
+          msg.className = "c-msg err";
+          msg.textContent = (err && err.message && err.message !== "Failed to fetch")
+            ? err.message : "Your comment didn't post. Check your connection and try again.";
+        })
+        .then(function () { post.disabled = false; post.textContent = "Post comment"; });
+    });
+  });
+
+  load();
 })();
 </script>
 </body>

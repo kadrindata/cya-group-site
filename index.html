@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>C&amp;YA Bible Study</title>
-<meta name="description" content="College & Young Adult Bible Study at BCEC Newton Campus: meeting times and materials for the How (Not) to Read the Bible series.">
+<meta name="description" content="College & Young Adults at BCEC Newton Campus: our plan for the year, meeting times, and materials for the How (Not) to Read the Bible series.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -48,6 +48,18 @@ header { display: grid; gap: 0.75rem; }
 header h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
 header h1 span { color: var(--accent); }
 header .lede { color: var(--muted); max-width: 36rem; font-size: 1.125rem; }
+.plan { display: grid; gap: 1rem; margin-top: 1rem; }
+.plan h2 { font-size: 1.35rem; }
+.plan-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.plan-steps li { display: grid; grid-template-columns: 2.25rem 1fr; gap: 0 0.9rem; align-items: start; }
+.plan-steps li > div { display: grid; gap: 0.3rem; min-width: 0; }
+.plan-steps h3 { font-size: 1.1rem; font-weight: 700; }
+.plan-steps p { color: var(--muted); }
+.step-num { width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 1.05rem; border: 2px solid var(--line); color: var(--muted); }
+.plan-steps li.now .step-num { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.step-tag { justify-self: start; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.04em; text-decoration: none; color: var(--gold); background: var(--gold-soft); border-radius: 999px; padding: 0.2rem 0.6rem; margin-top: 0.15rem; }
+.step-tag:hover { text-decoration: underline; }
+#series-h .not { color: var(--accent); }
 
 .meet { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; display: grid; gap: 1.25rem; }
 .meet h2 { font-size: 1.35rem; }
@@ -136,9 +148,36 @@ footer { color: var(--muted); font-size: 0.9rem; }
 <body>
 <div class="wrap">
   <header>
-    <p class="eyebrow">College &amp; Young Adult Bible Study</p>
-    <h1>How <span>(Not)</span> to Read the Bible</h1>
-    <p class="lede">A six-session series on reading Scripture in context, built on Dan Kimball's video series. Each week we watch, talk, then practice on real passages together.</p>
+    <p class="eyebrow">BCEC Newton Campus</p>
+    <h1>College &amp; <span>Young Adults</span></h1>
+    <p class="lede">Welcome! We're the College and Young Adults group at BCEC: college students and young adults who meet twice a month after Sunday worship to open the Bible together.</p>
+    <div class="plan" aria-labelledby="plan-h">
+      <h2 id="plan-h">Our plan for this year</h2>
+      <ol class="plan-steps">
+        <li class="now">
+          <span class="step-num">1</span>
+          <div>
+            <h3>Learn to read the Bible well</h3>
+            <p>We start by practicing exegesis together: reading each passage in its context to understand what the author meant, before asking what it means for us.</p>
+            <a class="step-tag" href="#series-h">Now: How (Not) to Read the Bible</a>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div>
+            <h3>Get to know the tools</h3>
+            <p>Next, we'll learn about the resources that can help us study the Bible on our own.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div>
+            <h3>Study a whole book</h3>
+            <p>Then we'll put it all into practice by working through one full book of the Bible together. Which book is still to be decided.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
   </header>
 
   <div class="meet" aria-labelledby="meet-h">
@@ -158,9 +197,9 @@ footer { color: var(--muted); font-size: 0.9rem; }
 
   <section aria-labelledby="series-h">
     <div class="head">
-      <p class="eyebrow">The series</p>
-      <h2 id="series-h">Sessions &amp; materials</h2>
-      <p>Read the passages before we meet. Handouts and slides go up as each session is ready.</p>
+      <p class="eyebrow">Step 1 · Now studying</p>
+      <h2 id="series-h">How <span class="not">(Not)</span> to Read the Bible</h2>
+      <p>A six-session series on reading Scripture in context, built on Dan Kimball's video series. Each week we watch, talk, then practice on real passages together. Read the passages before we meet; handouts and slides go up as each session is ready.</p>
     </div>
     <ol class="sessions">
       <li class="session">

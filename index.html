@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C&amp;YA Bible Study</title>
+<meta name="description" content="College & Young Adult Bible Study at BCEC Newton Campus: meeting times and materials for the How (Not) to Read the Bible series.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: single reading column; meeting card up top, then series sessions as a stacked list with materials, method strip at the end */
+:root {
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --ink: #17242f;
+  --muted: #586874;
+  --line: #d9e1e6;
+  --accent: #1d4e74;
+  --accent-soft: #e3edf5;
+  --gold: #a46a12;
+  --gold-soft: #f6ead6;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #10181f; --surface: #172330; --ink: #e6edf2; --muted: #9aaab6; --line: #2a3a48;
+    --accent: #8cbbe0; --accent-soft: #1d3346; --gold: #e2ad5c; --gold-soft: #33281a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.55; }
+img { max-width: 100%; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 1.25rem; padding-block: calc(2.5rem + env(safe-area-inset-top, 0px)) calc(4rem + env(safe-area-inset-bottom, 0px)); display: grid; gap: 2.75rem; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.1; }
+p { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+
+header { display: grid; gap: 0.75rem; }
+header h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+header h1 span { color: var(--accent); }
+header .lede { color: var(--muted); max-width: 36rem; font-size: 1.125rem; }
+
+.meet { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; display: grid; gap: 1.25rem; }
+.meet h2 { font-size: 1.35rem; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem 1.5rem; margin: 0; }
+.facts div { display: grid; gap: 0.15rem; min-width: 0; }
+.facts dt { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; }
+.next { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.next strong { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+.next .later { color: var(--muted); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+
+section > .head { display: grid; gap: 0.4rem; margin-bottom: 1.25rem; }
+section > .head h2 { font-size: 1.75rem; }
+section > .head p { color: var(--muted); }
+
+.sessions { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+.session { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+.num { font-family: var(--display); font-weight: 800; font-size: 1.9rem; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.session.todo .num { color: var(--line); }
+.body { display: grid; gap: 0.5rem; min-width: 0; }
+.body h3 { font-size: 1.2rem; font-weight: 700; }
+.topic { color: var(--muted); }
+.refs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ref { font-family: var(--mono); font-size: 0.8rem; padding: 0.2rem 0.55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); text-decoration: none; }
+.ref:hover { text-decoration: underline; }
+.ref.tba { background: transparent; border: 1px dashed var(--line); color: var(--muted); }
+.mats { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; padding-top: 0.25rem; }
+.mats a { font-weight: 600; text-decoration: none; }
+.mats a:hover { text-decoration: underline; }
+.mats .leader { color: var(--gold); }
+.pending { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+
+.method { display: grid; gap: 1rem; }
+.circles { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
+.circle { display: grid; gap: 0.35rem; min-width: 0; }
+.circle h3 { font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem; }
+.circle h3::before { content: ""; width: 0.8rem; height: 0.8rem; border-radius: 50%; border: 2px solid var(--accent); flex: none; }
+.circle p { color: var(--muted); font-size: 0.97rem; }
+.steps { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; background: var(--gold-soft); border-radius: 10px; padding: 0.9rem 1.1rem; }
+.steps span { font-family: var(--display); font-weight: 700; }
+.steps i { font-style: normal; color: var(--gold); }
+.steps small { flex-basis: 100%; color: var(--muted); font-size: 0.92rem; }
+
+footer { color: var(--muted); font-size: 0.9rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">College &amp; Young Adult Bible Study</p>
+    <h1>How <span>(Not)</span> to Read the Bible</h1>
+    <p class="lede">A six-session series on reading Scripture in context, built on Dan Kimball's video series. Each week we watch, talk, then practice on real passages together.</p>
+  </header>
+
+  <div class="meet" aria-labelledby="meet-h">
+    <h2 id="meet-h">When &amp; where we meet</h2>
+    <dl class="facts">
+      <div><dt>Day</dt><dd>1st &amp; 3rd Sundays of the month</dd></div>
+      <div><dt>Time</dt><dd>12:45 pm, after worship service</dd></div>
+      <div><dt>Room</dt><dd>Room 206</dd></div>
+      <div><dt>Campus</dt><dd>BCEC Newton Campus</dd></div>
+    </dl>
+    <div class="next" aria-live="polite">
+      <span class="eyebrow">Next meeting</span>
+      <strong id="next-date">1st &amp; 3rd Sundays</strong>
+      <span class="later" id="later-dates"></span>
+    </div>
+  </div>
+
+  <section aria-labelledby="series-h">
+    <div class="head">
+      <p class="eyebrow">The series</p>
+      <h2 id="series-h">Sessions &amp; materials</h2>
+      <p>Read the passages before we meet. Handouts and slides go up as each session is ready.</p>
+    </div>
+    <ol class="sessions">
+      <li class="session">
+        <span class="num">1</span>
+        <div class="body">
+          <h3>Never Read a Bible Verse</h3>
+          <p class="topic">Why pulling one verse out of its setting changes what it says.</p>
+          <div class="refs">
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=Philippians+4%3A10-20&amp;version=ESV" target="_blank" rel="noopener">Phil 4:10–20</a>
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=Jeremiah+29%3A1-14&amp;version=ESV" target="_blank" rel="noopener">Jer 29:1–14</a>
+          </div>
+          <div class="mats">
+            <a href="materials/session-1/student-handout.pdf" target="_blank" rel="noopener">Student handout (PDF)</a>
+            <a href="materials/session-1/slides.pdf" target="_blank" rel="noopener">Slides (PDF)</a>
+            <a class="leader" href="materials/session-1/leader-guide.pdf" target="_blank" rel="noopener">Leader guide (PDF)</a>
+          </div>
+        </div>
+      </li>
+      <li class="session todo">
+        <span class="num">2</span>
+        <div class="body">
+          <h3>Stranger Things</h3>
+          <p class="topic">The strange Old Testament laws, and what they meant for Israel and mean for us.</p>
+          <div class="refs">
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=Leviticus+19&amp;version=ESV" target="_blank" rel="noopener">Lev 19</a>
+          </div>
+          <p class="pending">Materials coming soon</p>
+        </div>
+      </li>
+      <li class="session todo">
+        <span class="num">3</span>
+        <div class="body">
+          <h3>Boys' Club Christianity</h3>
+          <p class="topic">Women in the Bible and the church, with both major readings of the hard passages laid out fairly.</p>
+          <div class="refs">
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=1+Timothy+2&amp;version=ESV" target="_blank" rel="noopener">1 Tim 2</a>
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=1+Corinthians+14&amp;version=ESV" target="_blank" rel="noopener">1 Cor 14</a>
+          </div>
+          <p class="pending">Materials coming soon</p>
+        </div>
+      </li>
+      <li class="session todo">
+        <span class="num">4</span>
+        <div class="body">
+          <h3>Jesus Riding a Dinosaur</h3>
+          <p class="topic">Genesis, science, and what the creation account was written to say.</p>
+          <div class="refs">
+            <a class="ref" href="https://www.biblegateway.com/passage/?search=Genesis+1&amp;version=ESV" target="_blank" rel="noopener">Gen 1</a>
+          </div>
+          <p class="pending">Materials coming soon</p>
+        </div>
+      </li>
+      <li class="session todo">
+        <span class="num">5</span>
+        <div class="body">
+          <h3>My God Can Beat Up Your God</h3>
+          <p class="topic">Violence in the Old Testament and how Christianity relates to other world religions.</p>
+          <div class="refs"><span class="ref tba">Passages TBA</span></div>
+          <p class="pending">Materials coming soon</p>
+        </div>
+      </li>
+      <li class="session todo">
+        <span class="num">6</span>
+        <div class="body">
+          <h3>Rated NC-17</h3>
+          <p class="topic">The disturbing passages, including what the Bible says about slavery.</p>
+          <div class="refs"><span class="ref tba">Passages TBA</span></div>
+          <p class="pending">Materials coming soon</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="method" aria-labelledby="method-h">
+    <div class="head">
+      <p class="eyebrow">How we read every week</p>
+      <h2 id="method-h">Three circles of context</h2>
+      <p>Before deciding what a verse means, we place it inside three circles, from closest to widest.</p>
+    </div>
+    <div class="circles">
+      <div class="circle"><h3>Literary</h3><p>The verses around it, the book it sits in, and what kind of writing it is.</p></div>
+      <div class="circle"><h3>Historical</h3><p>Who wrote it, to whom, when, and what was happening to them.</p></div>
+      <div class="circle"><h3>Big story</h3><p>Where it fits in the whole Bible's story, from creation to Christ to new creation.</p></div>
+    </div>
+    <div class="steps">
+      <span>Observe</span><i>→</i><span>Interpret</span><i>→</i><span>Apply</span>
+      <small>What does it say? What did it mean to them? What does it mean for us?</small>
+    </div>
+  </section>
+
+  <footer>Questions? Talk to a study leader after the service.</footer>
+</div>
+
+<script>
+/* ============================================================
+   SKIPPED SUNDAYS
+   Add any 1st/3rd Sunday the group is NOT meeting, as "YYYY-MM-DD".
+   Example: var SKIP = ["2026-12-20", "2027-04-04"];
+   ============================================================ */
+var SKIP = [];
+
+(function () {
+  function iso(d) {
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    var day = String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+  // nth Sunday (1 or 3) of a given month
+  function nthSunday(y, m, n) {
+    var firstDay = new Date(y, m, 1).getDay();
+    var firstSunday = 1 + ((7 - firstDay) % 7);
+    return new Date(y, m, firstSunday + (n - 1) * 7);
+  }
+  function upcoming(count) {
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var y = today.getFullYear(), m = today.getMonth(), out = [], guard = 0;
+    while (out.length < count && guard++ < 36) {
+      [1, 3].forEach(function (n) {
+        var d = nthSunday(y, m, n);
+        if (d >= today && out.length < count && SKIP.indexOf(iso(d)) === -1) out.push(d);
+      });
+      m++; if (m > 11) { m = 0; y++; }
+    }
+    return { list: out, today: today };
+  }
+  var r = upcoming(4), dates = r.list;
+  if (!dates.length) return;
+  var first = dates[0];
+  var isToday = iso(first) === iso(r.today);
+  document.getElementById("next-date").textContent = isToday
+    ? "Today, 12:45 pm"
+    : first.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  document.getElementById("later-dates").textContent = "Then " + dates.slice(1).map(function (d) {
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }).join(" · ");
+})();
+</script>
+</body>
+</html>

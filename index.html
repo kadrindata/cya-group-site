@@ -16,6 +16,7 @@
   --ink: #17242f;
   --muted: #586874;
   --line: #d9e1e6;
+  --tint: #eef4f8;
   --accent: #1d4e74;
   --accent-soft: #e3edf5;
   --gold: #a46a12;
@@ -28,7 +29,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #10181f; --surface: #172330; --ink: #e6edf2; --muted: #9aaab6; --line: #2a3a48;
+    --bg: #10181f; --surface: #172330; --ink: #e6edf2; --muted: #9aaab6; --line: #2a3a48; --tint: #15222d;
     --accent: #8cbbe0; --accent-soft: #1d3346; --gold: #e2ad5c; --gold-soft: #33281a; --danger: #f2a39b;
     color-scheme: dark;
   }
@@ -62,7 +63,7 @@ header .lede { color: var(--muted); max-width: 36rem; font-size: 1.125rem; }
 .step-tag:hover { text-decoration: underline; }
 #series-h .not { color: var(--accent); }
 
-.meet { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; display: grid; gap: 1.25rem; }
+.meet { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--gold); border-radius: 14px; padding: 1.5rem; display: grid; gap: 1.25rem; }
 .meet h2 { font-size: 1.35rem; }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem 1.5rem; margin: 0; }
 .facts div { display: grid; gap: 0.15rem; min-width: 0; }
@@ -76,8 +77,9 @@ section > .head { display: grid; gap: 0.4rem; margin-bottom: 1.25rem; }
 section > .head h2 { font-size: 1.75rem; }
 section > .head p { color: var(--muted); }
 
-.sessions { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
-.session { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+.sessions { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.session { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1rem; padding: 1.25rem; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.session:not(.todo) { border-left: 4px solid var(--accent); }
 .num { font-family: var(--display); font-weight: 800; font-size: 1.9rem; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
 .session.todo .num { color: var(--line); }
 .body { display: grid; gap: 0.5rem; min-width: 0; }
@@ -132,6 +134,13 @@ section > .head p { color: var(--muted); }
 .hw-list { margin: 0; padding-left: 1.4rem; display: grid; gap: 0.3rem; font-size: 0.97rem; }
 
 .method { display: grid; gap: 1rem; }
+.panel { background: var(--tint); border-radius: 14px; padding: 1.5rem; }
+.panel > .head { margin-bottom: 0.25rem; }
+.band { position: relative; border-top: 1px solid var(--line); padding-top: 2rem; }
+.band::before { content: ""; position: absolute; top: -2px; left: 0; width: 3.5rem; height: 3px; border-radius: 2px; background: var(--accent); }
+footer.band { padding-top: 1.25rem; }
+footer.band::before { display: none; }
+.plan { border-top: 1px solid var(--line); padding-top: 1.5rem; }
 .circles { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
 .circle { display: grid; gap: 0.35rem; min-width: 0; }
 .circle h3 { font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -194,7 +203,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
     </div>
   </div>
 
-  <section class="method" aria-labelledby="method-h">
+  <section class="method panel" aria-labelledby="method-h">
     <div class="head">
       <p class="eyebrow">How we read every week</p>
       <h2 id="method-h">Three circles of context</h2>
@@ -211,7 +220,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
     </div>
   </section>
 
-  <section aria-labelledby="series-h">
+  <section class="band" aria-labelledby="series-h">
     <div class="head">
       <p class="eyebrow">Step 1 · Now studying</p>
       <h2 id="series-h">How <span class="not">(Not)</span> to Read the Bible</h2>
@@ -438,7 +447,7 @@ footer { color: var(--muted); font-size: 0.9rem; }
     </ol>
   </section>
 
-  <footer>Questions? Talk to a study leader after the service.</footer>
+  <footer class="band">Questions? Talk to a study leader after the service.</footer>
 </div>
 
 <script>
